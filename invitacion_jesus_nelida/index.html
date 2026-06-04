@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Jesús & Nélida - Invitación de Boda</title>
+  
+  <!-- Premium Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Animation Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Lluvia de Corazones (aparece al abrir la invitación) -->
+  <div id="hearts-rain"></div>
+
+  <!-- 3D Envelope Container -->
+  <div id="envelope-container">
+    <div class="envelope-wrapper">
+      <div class="envelope" id="envelope">
+        <div class="flap"></div>
+        <div class="pocket"></div>
+        <div class="letter" id="letter">
+          <div class="letter-content">
+            <span class="letter-pre">Nuestra Boda</span>
+            <h2 class="letter-names">Jesús & Nélida</h2>
+            <div class="letter-line"></div>
+            <p class="letter-details">02 de Octubre, 2026</p>
+            <p class="letter-details-sub">Trinidad - Bolivia</p>
+          </div>
+        </div>
+        <div class="seal" id="seal">
+          <div class="seal-inner">
+            <span class="seal-initials">J & N</span>
+          </div>
+        </div>
+      </div>
+      <p class="envelope-instruction">Haz clic en el lacre para abrir la invitación</p>
+    </div>
+  </div>
+
+  <div id="wedding-page">
+    
+    <div id="music-control" class="music-player">
+      <div class="music-disc">
+        <svg viewBox="0 0 24 24" width="24" height="24" class="icon-music">
+          <path fill="currentColor" d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+        </svg>
+      </div>
+      <div class="sound-waves">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <audio id="bg-music" loop>
+      <source src="assets/musica.mp3" type="audio/mpeg">
+    </audio>
+
+    <section class="hero-section">
+      <div class="hero-overlay"></div>
+      <div class="hero-content" data-aos="fade-up" data-aos-duration="1500">
+        <p class="hero-subtitle">¡Nos Casamos!</p>
+        <h1 class="hero-title">Jesús & Nélida</h1>
+        <div class="hero-divider"></div>
+        <p class="hero-date">02.10.2026</p>
+        <p class="hero-location">Trinidad, Beni - Bolivia</p>
+        <a href="#countdown-sec" class="btn-scroll">Ver Detalles</a>
+      </div>
+    </section>
+
+    <section class="phrase-section" data-aos="fade-up">
+      <div class="container">
+        <div class="phrase-box">
+          <span class="phrase-quote">“</span>
+          <p class="phrase-text">
+            Por encima de todo, vístanse de amor, que es el vínculo perfecto.
+          </p>
+          <span class="phrase-reference">Colosenses 3:14</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="countdown-sec" class="countdown-section" data-aos="fade-up">
+      <div class="container">
+        <h2 class="section-title">La Cuenta Regresiva</h2>
+        <p class="section-subtitle">Cada segundo nos acerca más al gran día</p>
+        <div class="countdown-grid">
+          <div class="countdown-card"><span class="time-num" id="d">00</span><span class="time-label">Días</span></div>
+          <div class="countdown-card"><span class="time-num" id="h">00</span><span class="time-label">Horas</span></div>
+          <div class="countdown-card"><span class="time-num" id="m">00</span><span class="time-label">Minutos</span></div>
+          <div class="countdown-card"><span class="time-num" id="s">00</span><span class="time-label">Segundos</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="story-section" data-aos="fade-up">
+      <div class="container">
+        <div class="story-layout">
+          <div class="story-content">
+            <h2 class="section-title">Nuestra Historia</h2>
+            <div class="section-divider"></div>
+            <p class="story-text">
+              Dos caminos que se cruzaron, dos vidas que se unieron en un solo amor. Desde el primer día supimos que queríamos caminar juntos por siempre. 
+            </p>
+            <p class="story-text">
+              Hoy, con la bendición de Dios y de nuestros padres, decidimos dar el paso más importante de nuestras vidas. Queremos celebrar este inicio con las personas que más amamos y que han sido parte de nuestra historia.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Padrinos Section - Centrada con una sola tarjeta -->
+    <section class="padrinos-section" data-aos="fade-up">
+      <div class="container">
+        <h2 class="section-title">Nuestros Padrinos</h2>
+        <div class="section-divider"></div>
+        <p class="section-subtitle">Personas muy especiales que guiarán nuestro camino</p>
+        
+        <div class="padrinos-grid-single">
+          <div class="padrino-card-single">
+            <div class="padrino-role">Padrinos de Honor</div>
+            <div class="padrino-names">
+              <p>Daniela Cardoso Sousa</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="timeline-section" data-aos="fade-up">
+      <div class="container">
+        <h2 class="section-title">Itinerario</h2>
+        <div class="section-divider"></div>
+        <p class="section-subtitle">No te pierdas ningún momento de nuestro día especial</p>
+        <div class="timeline">
+          <div class="timeline-item left">
+            <div class="timeline-icon"><svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg></div>
+            <div class="timeline-content"><span class="time">20:00 HRS</span><h3>Ceremonia</h3><p>El momento sagrado donde uniremos nuestras vidas ante Dios.</p></div>
+          </div>
+          <div class="timeline-item right">
+            <div class="timeline-icon"><svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M11 21H5c-1.1 0-2-.9-2-2V9c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2z"/></svg></div>
+            <div class="timeline-content"><span class="time">21:00 HRS</span><h3>Recepción & Protocolo</h3><p>Recepción de invitados, bienvenida formal y fotos con los recién casados.</p></div>
+          </div>
+          <div class="timeline-item left">
+            <div class="timeline-icon"><svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7z"/></svg></div>
+            <div class="timeline-content"><span class="time">22:30 HRS</span><h3>Cena de Gala & Brindis</h3><p>Disfrutaremos de una deliciosa cena para celebrar nuestro amor.</p></div>
+          </div>
+          <div class="timeline-item right">
+            <div class="timeline-icon"><svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></div>
+            <div class="timeline-content"><span class="time">23:30 HRS</span><h3>Apertura de la Pista & Fiesta</h3><p>¡Es momento de celebrar! Baile, música y alegría hasta el amanecer.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery-section" data-aos="fade-up">
+      <div class="container">
+        <h2 class="section-title">Galería de Momentos</h2>
+        <div class="section-divider"></div>
+        <p class="section-subtitle">Nuestros momentos favoritos juntos</p>
+        <div class="gallery-grid">
+          <div class="gallery-item item-large"><img src="assets/foto1.png" alt="Jesús y Nélida"></div>
+          <div class="gallery-item"><img src="assets/foto2.png" alt="Jesús y Nélida"></div>
+          <div class="gallery-item"><img src="assets/foto3.png" alt="Jesús y Nélida"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="details-section" data-aos="fade-up">
+      <div class="container">
+        <div class="details-grid">
+          <div class="detail-card">
+            <div class="detail-icon"><svg viewBox="0 0 24 24" width="36" height="36"><path fill="currentColor" d="M12 2c-.93 0-1.73.57-2 1.39V5.1c-2.31.52-4.14 2.22-4.74 4.5l8.74 3.5 8.74-3.5C22.14 7.32 20.31 5.62 18 5.1V3.39c-.27-.82-1.07-1.39-2-1.39h-4z"/></svg></div>
+            <h3>Código de Vestimenta</h3>
+            <p class="detail-highlight">Formal / Traje de Gala</p>
+            <p>Tu presencia viste de gala nuestro gran día. Agradecemos evitar vestir de color blanco.</p>
+          </div>
+          <div class="detail-card">
+            <div class="detail-icon"><svg viewBox="0 0 24 24" width="36" height="36"><path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg></div>
+            <h3>Lluvia de Sobres</h3>
+            <p class="detail-highlight">Regalo en Efectivo</p>
+            <p>El mejor regalo es tu presencia. Si deseas tener un detalle con nosotros, contaremos con una urna para sobres.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="location-section" data-aos="fade-up">
+      <div class="container">
+        <h2 class="section-title">Ubicación</h2>
+        <div class="section-divider"></div>
+        <div class="location-box">
+          <div class="location-info">
+            <div class="loc-icon"><svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg></div>
+            <p class="loc-name">Domicilio de la familia Fuentes</p>
+            <p class="loc-addr">Trinidad, Beni - Bolivia</p>
+          </div>
+          <div class="map-container"><iframe src="https://www.google.com/maps?q=Trinidad+Beni+Bolivia&output=embed" allowfullscreen loading="lazy"></iframe></div>
+          <a href="https://maps.app.goo.gl/ezgV7i1S84XUGTKUA" target="_blank" class="btn-primary">Abrir en Google Maps</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- RSVP Section - Botones uno debajo del otro -->
+    <section class="rsvp-section" data-aos="fade-up">
+      <div class="container">
+        <div class="rsvp-card">
+          <h2>Confirmar Asistencia</h2>
+          <div class="section-divider"></div>
+          <p>Confirma antes del <strong>15 de Septiembre de 2026</strong></p>
+          
+          <div class="button-group-column">
+            <a href="https://wa.me/59169598244?text=Hola%20Jesús%20y%20Nélida,%20confirmo%20mi%20asistencia%20a%20su%20boda.%20¡Muchas%20felicidades!" target="_blank" class="btn-whatsapp">
+              📱 Confirmar por WhatsApp
+            </a>
+            
+            <button id="saveReminderBtn" class="btn-reminder">
+              📅 Guardar Recordatorio
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p class="footer-names">Jesús & Nélida</p>
+      <p class="footer-note">¡Te esperamos para celebrar juntos!</p>
+      <div class="footer-line"></div>
+      <p class="footer-copyright">02 de Octubre, 2026 · Trinidad, Beni</p>
+    </footer>
+  </div>
+
+  <style>
+    /* Estilos para padrino centrado */
+    .padrinos-grid-single {
+      display: flex;
+      justify-content: center;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    
+    .padrino-card-single {
+      background-color: var(--bg-card);
+      border: 1px solid var(--color-gold-light);
+      border-radius: 20px;
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition-smooth);
+      width: 100%;
+    }
+    
+    .padrino-card-single:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--color-gold);
+    }
+    
+    .padrino-role {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--color-gold-dark);
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    
+    .padrino-names {
+      font-family: var(--font-title);
+      font-size: 28px;
+      color: var(--color-dark);
+      line-height: 1.3;
+    }
+
+    /* Botones en columna */
+    .button-group-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      margin-top: 25px;
+      width: 100%;
+    }
+    
+    .btn-whatsapp, .btn-reminder {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px 35px;
+      border-radius: 50px;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: var(--transition-smooth);
+      cursor: pointer;
+      text-decoration: none;
+      width: 100%;
+      max-width: 320px;
+      box-sizing: border-box;
+    }
+    
+    .btn-whatsapp {
+      background-color: #25D366;
+      color: var(--color-white);
+      border: 1px solid #25D366;
+    }
+    
+    .btn-whatsapp:hover {
+      background-color: transparent;
+      color: #25D366;
+      transform: translateY(-3px);
+    }
+    
+    .btn-reminder {
+      background-color: var(--color-gold-dark);
+      color: var(--color-white);
+      border: 1px solid var(--color-gold-dark);
+    }
+    
+    .btn-reminder:hover {
+      background-color: transparent;
+      color: var(--color-gold-dark);
+      transform: translateY(-3px);
+    }
+
+    /* ============================================
+       LLUVIA DE CORAZONES - MÁS DURACIÓN
+       ============================================ */
+    #hearts-rain {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      overflow: hidden;
+    }
+    
+    .heart {
+      position: absolute;
+      font-size: 24px;
+      opacity: 0;
+      animation: fall linear forwards;
+      color: #C5A880;
+      text-shadow: 0 0 5px rgba(197, 168, 128, 0.5);
+    }
+    
+    /* Diferentes tonos de corazones para más variedad */
+    .heart-pink {
+      color: #E8A0BF;
+      text-shadow: 0 0 5px rgba(232, 160, 191, 0.5);
+    }
+    
+    .heart-red {
+      color: #E57373;
+      text-shadow: 0 0 5px rgba(229, 115, 115, 0.5);
+    }
+    
+    @keyframes fall {
+      0% {
+        transform: translateY(-20vh) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(120vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .padrino-names {
+        font-size: 22px;
+      }
+      .padrino-card-single {
+        padding: 30px 20px;
+      }
+      .btn-whatsapp, .btn-reminder {
+        padding: 14px 25px;
+        font-size: 12px;
+        max-width: 280px;
+      }
+    }
+  </style>
+
+  <script>
+    AOS.init({ duration: 1200, once: true });
+
+    const seal = document.getElementById('seal');
+    const envelope = document.getElementById('envelope');
+    const envelopeContainer = document.getElementById('envelope-container');
+    const weddingPage = document.getElementById('wedding-page');
+    const bgMusic = document.getElementById('bg-music');
+    const musicControl = document.getElementById('music-control');
+    const heartsRain = document.getElementById('hearts-rain');
+
+    let isPlaying = false;
+    let heartInterval = null;
+    let stopHeartTimeout = null;
+
+    function playMusic() {
+      bgMusic.play().then(() => {
+        isPlaying = true;
+        musicControl.classList.add('playing');
+      }).catch(e => console.log('Autoplay blocked:', e));
+    }
+
+    function toggleMusic() {
+      if (isPlaying) {
+        bgMusic.pause();
+        isPlaying = false;
+        musicControl.classList.remove('playing');
+      } else {
+        playMusic();
+      }
+    }
+
+    musicControl.addEventListener('click', toggleMusic);
+
+    // Función para crear corazones flotantes (más duraderos)
+    function startHeartRain() {
+      // Limpiar intervalos anteriores si existen
+      if (heartInterval) clearInterval(heartInterval);
+      if (stopHeartTimeout) clearTimeout(stopHeartTimeout);
+      
+      // Limpiar corazones existentes
+      const existingHearts = document.querySelectorAll('.heart');
+      existingHearts.forEach(heart => heart.remove());
+      
+      // Crear corazones cada 250ms (más frecuencia = más corazones)
+      heartInterval = setInterval(() => {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        
+        // Corazones de diferentes colores (dorado, rosa, rojo)
+        const colors = ['', 'heart-pink', 'heart-red'];
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        if (randomColor) heart.classList.add(randomColor);
+        
+        heart.innerHTML = '❤️';
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.animationDuration = (Math.random() * 4 + 3) + 's'; // caída más lenta (3-7 segundos)
+        heart.style.fontSize = (Math.random() * 25 + 15) + 'px';
+        heart.style.opacity = Math.random() * 0.7 + 0.3;
+        
+        heartsRain.appendChild(heart);
+        
+        // Eliminar el corazón después de que termine su animación (8 segundos máximo)
+        setTimeout(() => {
+          if (heart && heart.remove) heart.remove();
+        }, 8000);
+      }, 250); // Cada 250ms (4 corazones por segundo aprox)
+      
+      // Detener la lluvia después de 20 SEGUNDOS (mucho más tiempo)
+      stopHeartTimeout = setTimeout(() => {
+        stopHeartRain();
+      }, 30000); // 20 segundos de lluvia continua
+    }
+
+    function stopHeartRain() {
+      if (heartInterval) {
+        clearInterval(heartInterval);
+        heartInterval = null;
+      }
+      if (stopHeartTimeout) {
+        clearTimeout(stopHeartTimeout);
+        stopHeartTimeout = null;
+      }
+      // No eliminar los corazones inmediatamente, dejar que terminen su caída naturalmente
+      setTimeout(() => {
+        const hearts = document.querySelectorAll('.heart');
+        hearts.forEach(heart => heart.remove());
+      }, 5000);
+    }
+
+    seal.addEventListener('click', () => {
+      envelope.classList.add('open');
+      playMusic();
+      
+      setTimeout(() => {
+        gsap.to(envelopeContainer, {
+          opacity: 0,
+          scale: 1.2,
+          duration: 1.2,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            envelopeContainer.style.display = 'none';
+          }
+        });
+        
+        weddingPage.style.display = 'block';
+        gsap.to(weddingPage, {
+          opacity: 1,
+          duration: 1.2,
+          ease: 'power2.out',
+          onStart: () => {
+            setTimeout(() => {
+              AOS.refresh();
+              startHeartRain(); // Lluvia de 20 segundos
+            }, 150);
+            window.dispatchEvent(new Event('resize'));
+          }
+        });
+      }, 1600);
+    });
+
+    // Countdown Timer
+    const targetDate = new Date("October 2, 2026 20:00:00").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const diff = targetDate - now;
+      const dNode = document.getElementById('d');
+      const hNode = document.getElementById('h');
+      const mNode = document.getElementById('m');
+      const sNode = document.getElementById('s');
+      if (!dNode || !hNode || !mNode || !sNode) return;
+      if (diff <= 0) {
+        dNode.innerHTML = '00'; hNode.innerHTML = '00'; mNode.innerHTML = '00'; sNode.innerHTML = '00';
+        return;
+      }
+      const days = Math.floor(diff / (1000*60*60*24));
+      const hours = Math.floor((diff % (86400000)) / 3600000);
+      const minutes = Math.floor((diff % 3600000) / 60000);
+      const seconds = Math.floor((diff % 60000) / 1000);
+      dNode.innerHTML = days < 10 ? '0' + days : days;
+      hNode.innerHTML = hours < 10 ? '0' + hours : hours;
+      mNode.innerHTML = minutes < 10 ? '0' + minutes : minutes;
+      sNode.innerHTML = seconds < 10 ? '0' + seconds : seconds;
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // Guardar Recordatorio
+    function downloadICS() {
+      const startDateUTC = "20261003T000000Z";
+      const endDateUTC = "20261003T080000Z";
+      const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Boda Jesús y Nélida//ES
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:${Date.now()}@bodajesusynelida
+DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z
+DTSTART:${startDateUTC}
+DTEND:${endDateUTC}
+SUMMARY:Boda de Jesús y Nélida
+DESCRIPTION:¡Celebramos nuestra unión! Te esperamos en Trinidad, Beni - Bolivia.\\n\\nCeremonia: 20:00 hrs\\nRecepción: 21:00 hrs\\nCena: 22:30 hrs\\nFiesta: 23:30 hrs
+LOCATION:Domicilio de la familia Fuentes, Trinidad, Beni - Bolivia
+CATEGORIES:CELEBRATION
+STATUS:CONFIRMED
+BEGIN:VALARM
+TRIGGER:-PT48H
+ACTION:DISPLAY
+DESCRIPTION:Recordatorio: Boda de Jesús y Nélida en 2 días
+END:VALARM
+END:VEVENT
+END:VCALENDAR`;
+      const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(link);
+      link.download = "recordatorio_boda_Jesus_Nelida.ics";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
+      alert("✅ Recordatorio guardado. Revisa tu calendario.");
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const reminderBtn = document.getElementById('saveReminderBtn');
+      if (reminderBtn) reminderBtn.addEventListener('click', downloadICS);
+    });
+  </script>
+</body>
+</html>
