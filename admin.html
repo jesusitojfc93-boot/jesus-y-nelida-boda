@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administración | Jesús & Nélida</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <style>
+    :root { --ink: #171717; --muted: #717171; --gold: #b58b32; --line: #e8e0d0; --paper: #fbfaf7; --green: #426b4b; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font: 14px/1.6 Montserrat, sans-serif; }
+    main { width: min(1120px, calc(100% - 40px)); margin: 0 auto; padding: 56px 0; }
+    h1, h2 { margin: 0; font: 500 42px/1.1 'Cormorant Garamond', serif; }
+    h2 { font-size: 30px; }
+    .eyebrow { color: var(--gold); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
+    .panel { margin-top: 28px; padding: 28px; border: 1px solid var(--line); background: #fff; box-shadow: 0 14px 45px rgba(57, 42, 17, .06); }
+    .login { max-width: 440px; margin: 80px auto; }
+    label { display: block; margin: 16px 0 6px; font-size: 12px; }
+    input, select, button { width: 100%; padding: 12px 14px; border: 1px solid var(--line); background: #fff; color: var(--ink); font: inherit; }
+    td input { min-width: 210px; }
+    button { margin-top: 18px; border-color: var(--gold); background: var(--gold); color: #fff; cursor: pointer; }
+    button.secondary { width: auto; margin: 0; background: transparent; color: var(--gold); }
+    .toolbar { display: flex; align-items: end; justify-content: space-between; gap: 20px; }
+    .toolbar button { width: auto; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 24px; }
+    .stat { padding: 18px; border-left: 2px solid var(--gold); background: #faf7ef; }
+    .stat strong { display: block; font: 500 32px/1 'Cormorant Garamond', serif; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; margin-top: 20px; border-collapse: collapse; min-width: 700px; }
+    th, td { padding: 13px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: var(--muted); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; }
+    .status { color: var(--green); font-size: 11px; text-transform: uppercase; }
+    .review-note { display: block; color: var(--gold); font-size: 10px; }
+    .group-actions { display: flex; align-items: center; gap: 8px; }
+    .group-actions select { min-width: 140px; }
+    .group-actions button { width: auto; margin: 0; padding: 9px 12px; border-color: #a44e43; background: transparent; color: #a44e43; white-space: nowrap; }
+    .error { margin-top: 14px; color: #a44e43; }
+    .hidden { display: none; }
+    @media (max-width: 650px) { main { width: min(100% - 24px, 1120px); padding: 28px 0; } .panel { padding: 20px; } h1 { font-size: 36px; } .stats { grid-template-columns: 1fr; } .toolbar { align-items: stretch; flex-direction: column; } .toolbar button { width: 100%; } }
+  </style>
+</head>
+<body>
+  <main>
+    <section id="loginPanel" class="panel login">
+      <span class="eyebrow">Jesús & Nélida</span>
+      <h1>Panel de asistencia</h1>
+      <form id="loginForm">
+        <label for="email">Correo administrador</label>
+        <input id="email" type="email" autocomplete="username" required>
+        <label for="password">Contraseña</label>
+        <input id="password" type="password" autocomplete="current-password" required>
+        <button type="submit">Ingresar</button>
+      </form>
+      <p id="loginMessage" class="error" role="alert"></p>
+    </section>
+
+    <section id="dashboard" class="hidden">
+      <span class="eyebrow">Administración privada</span>
+      <div class="toolbar"><h1>Lista de asistencia</h1><div><button id="exportBtn" class="secondary">Exportar PDF</button><button id="logoutBtn" class="secondary">Cerrar sesión</button></div></div>
+      <p id="dashboardMessage" class="error hidden" role="alert"></p>
+      <div class="stats"><div class="stat"><span>Personas invitadas</span><strong id="totalGuests">0</strong></div><div class="stat"><span>Confirmadas</span><strong id="confirmedGuests">0</strong></div><div class="stat"><span>Pendientes</span><strong id="pendingGuests">0</strong></div></div>
+      <section class="panel"><h2>Confirmaciones</h2><div class="table-wrap"><table><thead><tr><th>Grupo</th><th>Acompañante</th><th>Fecha</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="groupsBody"></tbody></table></div></section>
+      <section class="panel"><h2>Invitados registrados</h2><div class="table-wrap"><table><thead><tr><th>Nombre oficial</th><th>Estado</th><th>Invitaciones extra</th><th>Acción</th></tr></thead><tbody id="guestsBody"></tbody></table></div></section>
+    </section>
+  </main>
+  <script>
+    const supabaseClient = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+    const loginPanel = document.getElementById('loginPanel');
+    const dashboard = document.getElementById('dashboard');
+    const loginMessage = document.getElementById('loginMessage');
+    const dashboardMessage = document.getElementById('dashboardMessage');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    let groups = [];
+    let guests = [];
+    let groupMembers = [];
+
+    function showDashboard() { loginPanel.classList.add('hidden'); dashboard.classList.remove('hidden'); loadData(); }
+    function showLogin() { dashboard.classList.add('hidden'); loginPanel.classList.remove('hidden'); }
+    function escapeCsv(value) { return `"${String(value || '').replaceAll('"', '""')}"`; }
+    function escapeHtml(value) { return String(value || '').replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character])); }
+
+    async function loadData() {
+      const [{ data: groupData, error: groupError }, { data: guestData, error: guestError }, { data: memberData, error: memberError }] = await Promise.all([
+        supabaseClient.from('guest_groups').select('*').order('created_at', { ascending: false }),
+        supabaseClient.from('invited_guests').select('*').order('official_name'),
+        supabaseClient.from('guest_group_members').select('guest_group_id, invited_guest_id, invited_by_guest_id')
+      ]);
+      if (groupError || guestError || memberError) {
+        dashboardMessage.textContent = `No se pudieron cargar los invitados: ${(groupError || guestError || memberError).message}`;
+        dashboardMessage.classList.remove('hidden');
+        return;
+      }
+      dashboardMessage.textContent = '';
+      dashboardMessage.classList.add('hidden');
+      guests = guestData || [];
+      groupMembers = memberData || [];
+      const guestNames = new Map(guests.map((guest) => [guest.id, guest.official_name]));
+      const namesByGroup = new Map();
+      groupMembers.forEach((member) => {
+        const name = guestNames.get(member.invited_guest_id);
+        if (!name) return;
+        const names = namesByGroup.get(member.guest_group_id) || [];
+        names.push(name);
+        namesByGroup.set(member.guest_group_id, names);
+      });
+      groups = (groupData || []).map((group) => ({ ...group, additional_names: namesByGroup.get(group.id) || [] }));
+      render();
+    }
+
+    function render() {
+      const confirmed = guests.filter((guest) => guest.status === 'confirmed').length;
+      const attendingGroups = groups;
+      document.getElementById('totalGuests').textContent = guests.length;
+      document.getElementById('confirmedGuests').textContent = confirmed;
+      document.getElementById('pendingGuests').textContent = guests.length - confirmed;
+      const extraGuestUsage = new Map();
+      groupMembers.forEach((member) => {
+        if (member.invited_by_guest_id) extraGuestUsage.set(member.invited_by_guest_id, (extraGuestUsage.get(member.invited_by_guest_id) || 0) + 1);
+      });
+      document.getElementById('groupsBody').innerHTML = attendingGroups.map((group) => `<tr><td>${escapeHtml(group.primary_name)}</td><td>${[group.companion_name, ...group.additional_names].filter(Boolean).map(escapeHtml).join(', ') || 'Sin acompañante'}${group.companion_is_unlisted ? '<span class="review-note">Pendiente de revisión</span>' : ''}</td><td>${new Date(group.created_at).toLocaleString('es-BO')}</td><td><span class="status">${escapeHtml(group.status)}</span></td><td><div class="group-actions"><select data-group-status="${group.id}"><option value="pending" ${group.status === 'pending' ? 'selected' : ''}>Pendiente</option><option value="confirmed" ${group.status === 'confirmed' ? 'selected' : ''}>Confirmada</option><option value="declined" ${group.status === 'declined' ? 'selected' : ''}>Rechazada</option></select>${group.companion_is_unlisted ? `<button type="button" class="approve-companion" data-approve-companion="${group.id}">Aprobar acompañante</button>` : ''}<button type="button" class="delete-group" data-group-delete="${group.id}">Eliminar</button></div></td></tr>`).join('') || '<tr><td colspan="5">Aún no hay confirmaciones.</td></tr>';
+      document.getElementById('guestsBody').innerHTML = guests.map((guest) => `<tr><td><input data-guest-name="${guest.id}" value="${escapeHtml(guest.official_name)}"></td><td><span class="status">${escapeHtml(guest.status)}</span></td><td>${guest.extra_guest_allowance ? `${extraGuestUsage.get(guest.id) || 0} / ${guest.extra_guest_allowance}` : 'No aplica'}</td><td><select data-guest-status="${guest.id}"><option value="pending" ${guest.status === 'pending' ? 'selected' : ''}>Pendiente</option><option value="confirmed" ${guest.status === 'confirmed' ? 'selected' : ''}>Confirmado</option><option value="declined" ${guest.status === 'declined' ? 'selected' : ''}>Rechazado</option></select><button data-guest-save="${guest.id}">Guardar nombre</button></td></tr>`).join('');
+      document.querySelectorAll('[data-group-status]').forEach((select) => select.addEventListener('change', updateGroupStatus));
+      document.querySelectorAll('[data-approve-companion]').forEach((button) => button.addEventListener('click', approveUnlistedCompanion));
+      document.querySelectorAll('[data-group-delete]').forEach((button) => button.addEventListener('click', deleteGuestGroup));
+      document.querySelectorAll('[data-guest-status]').forEach((select) => select.addEventListener('change', updateGuestStatus));
+      document.querySelectorAll('[data-guest-save]').forEach((button) => button.addEventListener('click', updateGuestName));
+    }
+
+    async function showSaveError(error) { await loadData(); dashboardMessage.textContent = `No se pudo guardar el cambio: ${error.message}`; dashboardMessage.classList.remove('hidden'); }
+    async function updateGroupStatus(event) { const { error } = await supabaseClient.rpc('set_guest_group_status', { p_group_id: event.target.dataset.groupStatus, p_status: event.target.value }); if (error) return showSaveError(error); await loadData(); }
+    async function approveUnlistedCompanion(event) {
+      const group = groups.find((item) => item.id === event.target.dataset.approveCompanion);
+      if (!group) return;
+      if (!window.confirm(`¿Aprobar al acompañante "${group.companion_name}" del grupo de ${group.primary_name}?`)) return;
+      const { error } = await supabaseClient.rpc('approve_unlisted_companion', { p_group_id: group.id });
+      if (error) return showSaveError(error);
+      await loadData();
+    }
+    async function deleteGuestGroup(event) { const group = groups.find((item) => item.id === event.target.dataset.groupDelete); if (!group) return; if (!window.confirm(`¿Eliminar la respuesta de ${group.primary_name}?`)) return; const { error } = await supabaseClient.rpc('delete_guest_group', { p_group_id: group.id }); if (error) return showSaveError(error); await loadData(); }
+    async function updateGuestStatus(event) { const { error } = await supabaseClient.rpc('set_invited_guest_status', { p_guest_id: event.target.dataset.guestStatus, p_status: event.target.value }); if (error) return showSaveError(error); await loadData(); }
+    async function updateGuestName(event) { const input = document.querySelector(`[data-guest-name="${event.target.dataset.guestSave}"]`); const name = input.value.trim(); if (!name) return; const { error } = await supabaseClient.from('invited_guests').update({ official_name: name }).eq('id', event.target.dataset.guestSave); if (error) return showSaveError(error); await loadData(); }
+
+    document.getElementById('loginForm').addEventListener('submit', async (event) => { event.preventDefault(); loginMessage.textContent = ''; const { error } = await supabaseClient.auth.signInWithPassword({ email: emailInput.value, password: passwordInput.value }); if (error) loginMessage.textContent = error.message; else showDashboard(); });
+    document.getElementById('logoutBtn').addEventListener('click', async () => { await supabaseClient.auth.signOut(); showLogin(); });
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      const rows = [...groups]
+        .sort((a, b) => a.primary_name.localeCompare(b.primary_name))
+        .map((group) => {
+          const companion = [group.companion_name, ...group.additional_names].filter(Boolean).join('; ');
+          return {
+            principal: group.primary_name,
+            acompanante: companion || 'Sin acompañante',
+            estado: group.status,
+            fecha: new Date(group.created_at).toLocaleString('es-BO')
+          };
+        });
+
+      const printWindow = window.open('', '_blank', 'width=1000,height=800');
+      if (!printWindow) {
+        dashboardMessage.textContent = 'Bloqueó la ventana emergente del PDF. Permite pop-ups y vuelve a intentarlo.';
+        dashboardMessage.classList.remove('hidden');
+        return;
+      }
+
+      const rowsHtml = rows.map((row) => `
+        <tr>
+          <td>${escapeHtml(row.principal)}</td>
+          <td>${escapeHtml(row.acompanante)}</td>
+          <td>${escapeHtml(row.estado)}</td>
+          <td>${escapeHtml(row.fecha)}</td>
+        </tr>
+      `).join('');
+
+      printWindow.document.write(`<!DOCTYPE html>
+        <html lang="es">
+          <head>
+            <meta charset="UTF-8">
+            <title>Lista de asistencia</title>
+            <style>
+              body { font-family: Arial, sans-serif; margin: 32px; color: #171717; }
+              h1 { font-size: 24px; margin-bottom: 16px; }
+              table { width: 100%; border-collapse: collapse; font-size: 12px; }
+              th, td { border: 1px solid #d6d1c7; padding: 8px 10px; text-align: left; vertical-align: top; }
+              th { background: #f4efe6; }
+            </style>
+          </head>
+          <body>
+            <h1>Jesús & Nélida — Lista de asistencia</h1>
+            <table>
+              <thead>
+                <tr>
+                  <th>Principal</th>
+                  <th>Acompañante</th>
+                  <th>Estado</th>
+                  <th>Fecha</th>
+                </tr>
+              </thead>
+              <tbody>${rowsHtml}</tbody>
+            </table>
+          </body>
+        </html>`);
+
+      printWindow.document.close();
+      printWindow.focus();
+      setTimeout(() => printWindow.print(), 250);
+    });
+    supabaseClient.auth.getSession().then(({ data }) => { if (data.session) showDashboard(); });
+  </script>
+</body>
+</html>

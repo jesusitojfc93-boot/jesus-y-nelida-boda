@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Jesús & Nélida - Invitación de Boda</title>
+  
+  <!-- Premium Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Animation Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Lluvia de Corazones (aparece al abrir la invitación) -->
+  <div id="hearts-rain"></div>
+
+  <!-- 3D Envelope Container -->
+  <div id="envelope-container">
+    <div class="envelope-wrapper">
+      <div class="envelope" id="envelope">
+        <div class="flap"></div>
+        <div class="pocket"></div>
+        <div class="letter" id="letter">
+          <div class="letter-content">
+            <span class="letter-pre">Nuestra Boda</span>
+            <h2 class="letter-names">Jesús & Nélida</h2>
+            <div class="letter-line"></div>
+            <p class="letter-details">02 de Octubre, 2026</p>
+            <p class="letter-details-sub">Trinidad - Bolivia</p>
+          </div>
+        </div>
+        <div class="seal" id="seal">
+          <div class="seal-inner">
+            <span class="seal-initials">
+              <span class="seal-letter">J</span>
+              <span class="seal-amp">&amp;</span>
+              <span class="seal-letter">N</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p class="envelope-instruction">Haz clic en el sello para abrir la invitación</p>
+    </div>
+  </div>
+
+  <div id="wedding-page">
+    <div id="music-control" class="music-player" role="button" title="Tocar o pausar música" aria-label="Tocar o pausar música">
+      <div class="music-disc">
+        <svg viewBox="0 0 24 24" width="24" height="24" class="icon-music">
+          <path fill="currentColor" d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+        </svg>
+      </div>
+      <div class="sound-waves">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <audio id="bg-music" preload="auto" playsinline loop>
+      <source src="./assets/musica.mp3" type="audio/mpeg">
+      Tu navegador no soporta audio en esta invitación.
+    </audio>
+
+    <section class="hero-section">
+      <div class="hero-overlay"></div>
+      <div class="hero-content" data-aos="fade-up" data-aos-duration="1500">
+        <p class="hero-subtitle">¡Nos Casamos!</p>
+        <h1 class="hero-title">Jesús & Nélida</h1>
+        <div class="hero-divider"></div>
+        <p class="hero-date">02.10.2026</p>
+        <p class="hero-location">Trinidad, Beni - Bolivia</p>
+        <a href="#countdown-sec" class="btn-scroll">Ver Detalles</a>
+      </div>
+    </section>
+
+    <section class="phrase-section" data-aos="fade-up">
+      <div class="container">
+        <div class="phrase-box">
+          <span class="phrase-quote">“</span>
+          <p class="phrase-text">
+            Por encima de todo, vístanse de amor, que es el vínculo perfecto.
+          </p>
+          <span class="phrase-reference">Colosenses 3:14</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="countdown-sec" class="countdown-section" data-aos="fade-up">
+      <div class="container">
+        <h2 class="section-title">La Cuenta Regresiva</h2>
+        <p class="section-subtitle">Cada segundo nos acerca más al gran día</p>
+        <div class="countdown-grid">
+          <div class="countdown-card"><span class="time-num" id="d">00</span><span class="time-label">Días</span></div>
+          <div class="countdown-card"><span class="time-num" id="h">00</span><span class="time-label">Horas</span></div>
+          <div class="countdown-card"><span class="time-num" id="m">00</span><span class="time-label">Minutos</span></div>
+          <div class="countdown-card"><span class="time-num" id="s">00</span><span class="time-label">Segundos</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="story-section" data-aos="fade-up">
+      <div class="container">
+        <div class="story-layout">
+          <div class="story-content">
+            <h2 class="section-title">Nuestra Historia</h2>
+            <div class="section-divider"></div>
+            <p class="story-text">
+              Dos caminos que se cruzaron, dos vidas que se unieron en un solo amor. Desde el primer día supimos que queríamos caminar juntos por siempre. 
+            </p>
+            <p class="story-text">
+              Hoy, con la bendición de Dios y de nuestros padres, decidimos dar el paso más importante de nuestras vidas. Queremos celebrar este inicio con las personas que más amamos y que han sido parte de nuestra historia.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Padrinos Section - Dos tarjetas -->
+    <section class="padrinos-section" data-aos="fade-up">
+      <div class="container">
+        <h2 class="section-title">Nuestros Padrinos</h2>
+        <div class="section-divider"></div>
+        <p class="section-subtitle">Dos personas muy especiales que nos acompañan con su apoyo y cariño</p>
+        
+        <div class="padrinos-grid">
+          <div id="padrinoCardDaniela" class="padrino-card-single padrino-card-clickable" role="button" tabindex="0" aria-expanded="false" aria-controls="padrinosInvitationDaniela" data-target="padrinosInvitationDaniela">
+            <div class="padrino-photo padrino-photo-madrina" role="img" aria-label="Rostro de Daniela Cardozo Souza">
+              <img src="assets/madrina.jpg" alt="" loading="lazy">
+            </div>
+            <div class="padrino-role">Madrina de Honor</div>
+            <div class="padrino-names">
+              <p>Daniela Cardozo Souza</p>
+            </div>
+            <p class="padrino-click-note">Toca aquí para ver tu invitación.</p>
+          </div>
+
+          <div id="padrinoCardJusseff" class="padrino-card-single padrino-card-clickable" role="button" tabindex="0" aria-expanded="false" aria-controls="padrinosInvitationJusseff" data-target="padrinosInvitationJusseff">
+            <div class="padrino-photo padrino-photo-padrino" role="img" aria-label="Rostro de Jusseff Vladimir Inarra Mallo">
+              <img src="assets/padrino.jpg" alt="" loading="lazy">
+            </div>
+            <div class="padrino-role">Padrino de Honor</div>
+            <div class="padrino-names">
+              <p>Jusseff Vladimir Inarra Mallo</p>
+            </div>
+            <p class="padrino-click-note">Toca aquí para ver tu invitación.</p>
+          </div>
+        </div>
+
+        <div id="padrinosFireworks" class="fireworks-container" aria-hidden="true"></div>
+
+        <div id="padrinosInvitationDaniela" class="padrinos-invitation hidden" data-aos="fade-up" aria-hidden="true">
+          <div class="padrinos-invitation-card">
+            <span class="invitation-label">Invitación Especial</span>
+            <h3>Para nuestra Madrina de Honor</h3>
+            <p>Querida Madrina de Honor,</p>
+            <p>No sabemos bien cómo empezar porque contigo las palabras se quedan cortas. Tú no solo eres la prima de Nélida… eres <strong>su hermana</strong>, y nosotros siempre te hemos visto así.</p>
+            <p>Hemos compartido tantos momentos juntos: risas, secretos, sueños, alguna que otra travesura y también abrazos en los días grises. Contigo nunca ha hecho falta explicar nada porque nos entiendes con solo mirarnos.</p>
+            <p>Por eso, cuando pensamos en quién queríamos que nos acompañe en este día tan especial, tu nombre fue el primero en llegar a nuestros corazones. Necesitamos que estés a nuestro lado, que nos tomes de la mano antes de caminar al altar, que nos devuelvas la mirada cómplice que tanto nos reconforta.</p>
+            <p>Gracias por ser esa hermana que la vida nos regaló. Gracias por querernos como solo tú sabes hacerlo. Este 02 de octubre no solo celebramos nuestro amor, también celebramos <strong>tenerte a ti</strong>.</p>
+            <p class="invitation-note">Te queremos con toda el alma. Prometemos hacerte llorar de felicidad, aunque tú ya estás empezando…</p>
+            <p class="invitation-note">Con todo nuestro cariño,</p>
+            <strong class="invitation-signature">Jesús y Nélida</strong>
+          </div>
+        </div>
+
+        <div id="padrinosInvitationJusseff" class="padrinos-invitation hidden" data-aos="fade-up" aria-hidden="true">
+          <div class="padrinos-invitation-card">
+            <span class="invitation-label">Invitación Especial</span>
+            <h3>Para nuestro Padrino de Honor</h3>
+            <p>Querido Padrino de Honor,</p>
+            <p>Tú llegaste a nuestras vidas como el esposo de nuestra madrina, pero te quedaste como <strong>un hermano</strong>, un amigo, un ejemplo de hombre de bien.</p>
+            <p>Hemos compartido asados, conversaciones hasta tarde y también momentos donde supiste darnos ese consejo que no pedíamos, pero que tanto necesitábamos. Contigo aprendimos lo que significa ser un compañero leal, un esposo presente y un amigo que nunca falla.</p>
+            <p>Por eso, cuando decidimos los padrinos, no dudamos ni un segundo. Queremos que estés con nosotros el día de la boda, que nos acompañes con esa tranquilidad que transmites y que celebres a nuestro lado este nuevo comienzo.</p>
+            <p>Gracias por todo lo que nos has dado sin pedir nada. Gracias por cuidar a quien es nuestra hermana del corazón. Y gracias por permitirnos tenerte como padrino y como amigo.</p>
+            <p><strong>Para nosotros, tú y Daniela son mucho más que padrinos: son familia elegida, son hogar. Este día también es de ustedes.</strong></p>
+            <p class="invitation-note">Con todo el cariño y respeto,</p>
+            <strong class="invitation-signature">Jesús y Nélida</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="timeline-section" data-aos="fade-up">
+      <div class="container">
+        <h2 class="section-title">Itinerario</h2>
+        <div class="section-divider"></div>
+        <p class="section-subtitle">No te pierdas ningún momento de nuestro día especial</p>
+        <div class="timeline">
+          <div class="timeline-item left">
+            <div class="timeline-icon" aria-label="Ceremonia"><img src="assets/ceremonia.svg" alt="Icono de ceremonia"></div>
+            <div class="timeline-content"><span class="time">20:00 HRS</span><h3>Ceremonia</h3><p>El momento sagrado donde uniremos nuestras vidas ante Dios.</p></div>
+          </div>
+          <div class="timeline-item right">
+            <div class="timeline-icon" aria-label="Recepción"><img src="assets/recepcion.svg" alt="Icono de recepción"></div>
+            <div class="timeline-content"><span class="time">21:00 HRS</span><h3>Recepción & Protocolo</h3><p>Recepción de invitados, bienvenida formal y fotos con los recién casados.</p></div>
+          </div>
+          <div class="timeline-item left">
+            <div class="timeline-icon" aria-label="Cena"><img src="assets/cena.svg" alt="Icono de cena"></div>
+            <div class="timeline-content"><span class="time">22:30 HRS</span><h3>Cena de Gala & Brindis</h3><p>Disfrutaremos de una deliciosa cena para celebrar nuestro amor.</p></div>
+          </div>
+          <div class="timeline-item right">
+            <div class="timeline-icon" aria-label="Fiesta"><img src="assets/fiesta.svg" alt="Icono de fiesta"></div>
+            <div class="timeline-content"><span class="time">23:30 HRS</span><h3>Apertura de la Pista & Fiesta</h3><p>¡Es momento de celebrar! Baile, música y alegría hasta el amanecer.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery-section" data-aos="fade-up">
+      <div class="container">
+        <h2 class="section-title">Galería de Momentos</h2>
+        <div class="section-divider"></div>
+        <p class="section-subtitle">Nuestros momentos favoritos juntos</p>
+        <div class="gallery-carousel">
+          <div class="gallery-track">
+            <div class="gallery-slide"><img src="assets/foto1.png" alt="Jesús y Nélida"></div>
+            <div class="gallery-slide"><img src="assets/foto2.png" alt="Jesús y Nélida"></div>
+            <div class="gallery-slide"><img src="assets/foto3.png" alt="Jesús y Nélida"></div>
+          </div>
+          <button class="gallery-nav gallery-prev" aria-label="Foto anterior">‹</button>
+          <button class="gallery-nav gallery-next" aria-label="Siguiente foto">›</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="details-section" data-aos="fade-up">
+      <div class="container">
+        <div class="details-grid">
+          <div class="detail-card">
+            <div class="detail-icon"><svg viewBox="0 0 24 24" width="36" height="36"><path fill="currentColor" d="M12 2c-.93 0-1.73.57-2 1.39V5.1c-2.31.52-4.14 2.22-4.74 4.5l8.74 3.5 8.74-3.5C22.14 7.32 20.31 5.62 18 5.1V3.39c-.27-.82-1.07-1.39-2-1.39h-4z"/></svg></div>
+            <h3>Código de Vestimenta</h3>
+            <p class="detail-highlight">Formal / Traje de Gala</p>
+            <p>Tu presencia viste de gala nuestro gran día. Agradecemos evitar vestir de color blanco y preferir tonos elegantes.</p>
+            <details class="palette-details">
+              <summary>Ver paleta sugerida</summary>
+              <p class="detail-note">Estos tonos son bienvenidos. Reservamos el blanco para los novios.</p>
+              <ul class="color-palette attire-palette" aria-label="Colores sugeridos para la vestimenta">
+                <li class="palette-color"><span class="color-swatch swatch-emerald" aria-hidden="true"></span><span>Verde esmeralda</span></li>
+                <li class="palette-color"><span class="color-swatch swatch-petrol" aria-hidden="true"></span><span>Azul petróleo</span></li>
+                <li class="palette-color"><span class="color-swatch swatch-wine" aria-hidden="true"></span><span>Vino</span></li>
+                <li class="palette-color"><span class="color-swatch swatch-terracotta" aria-hidden="true"></span><span>Terracota</span></li>
+                <li class="palette-color"><span class="color-swatch swatch-rose" aria-hidden="true"></span><span>Rosa viejo</span></li>
+                <li class="palette-color"><span class="color-swatch swatch-olive" aria-hidden="true"></span><span>Oliva</span></li>
+                <li class="palette-color"><span class="color-swatch swatch-charcoal" aria-hidden="true"></span><span>Grafito</span></li>
+                <li class="palette-color"><span class="color-swatch swatch-gold" aria-hidden="true"></span><span>Dorado</span></li>
+              </ul>
+            </details>
+          </div>
+          <div class="detail-card">
+            <div class="detail-icon"><svg viewBox="0 0 24 24" width="36" height="36"><path fill="currentColor" d="M20 6H4c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 2l-8 5-8-5V8l8 5 8-5v0z"/></svg></div>
+            <h3>Sobre</h3>
+            <p class="detail-highlight">Elegancia en cada detalle</p>
+            <p>Si decides traer un sobre, elige colores sobrios y elegantes como marfil, negro o dorado para acompañar la celebración.</p>
+            <details class="palette-details">
+              <summary>Ver opciones de sobre</summary>
+              <p class="detail-note">Elige el tono que prefieras para acompañar la celebración.</p>
+              <ul class="envelope-palette" aria-label="Colores sugeridos para el sobre">
+                <li>
+                  <span class="envelope-swatch envelope-ivory" role="img" aria-label="Sobre color marfil"><span></span></span>
+                  <span>Marfil</span>
+                </li>
+                <li>
+                  <span class="envelope-swatch envelope-black" role="img" aria-label="Sobre color negro"><span></span></span>
+                  <span>Negro</span>
+                </li>
+                <li>
+                  <span class="envelope-swatch envelope-gold" role="img" aria-label="Sobre color dorado"><span></span></span>
+                  <span>Dorado</span>
+                </li>
+              </ul>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="location-section" data-aos="fade-up">
+      <div class="container">
+        <h2 class="section-title">Ubicación</h2>
+        <div class="section-divider"></div>
+        <div class="location-box">
+          <div class="location-info">
+            <div class="loc-icon"><svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg></div>
+            <p class="loc-name">Lugar de la celebración</p>
+            <p class="loc-addr">Trinidad, Beni · Bolivia</p>
+            <p class="loc-coordinates">-14.841336, -64.928327</p>
+          </div>
+          <div class="map-container"><iframe title="Mapa de la ubicación de la celebración en Trinidad" src="https://www.google.com/maps?q=-14.841336,-64.928327&hl=es&z=17&output=embed" allowfullscreen loading="lazy"></iframe></div>
+          <div class="location-actions">
+            <a href="https://www.google.com/maps/dir/?api=1&destination=-14.841336%2C-64.928327" target="_blank" rel="noopener noreferrer" class="btn-primary">Cómo llegar</a>
+            <button id="copyLocationBtn" class="btn-primary btn-copy-location" type="button">Copiar ubicación</button>
+          </div>
+          <p id="locationCopyMessage" class="location-copy-message" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- RSVP Section - Botones uno debajo del otro -->
+    <section class="rsvp-section" data-aos="fade-up">
+      <div class="container">
+        <div class="rsvp-card">
+          <h2>Confirmar Asistencia</h2>
+          <div class="section-divider"></div>
+          <p>Confirma tu grupo antes del <strong>30 de Septiembre de 2026</strong></p>
+
+          <form id="guestForm" class="guest-form">
+            <details class="guest-form-disclosure">
+              <summary class="guest-form-summary">
+                <span class="guest-eyebrow">Paso 1 · Datos de asistencia</span>
+                <h3>¿Quiénes nos acompañan?</h3>
+                <span class="guest-form-collapsed-note">Toca para completar tus datos</span>
+              </summary>
+              <div class="guest-form-fields">
+                <p class="guest-form-note">Escribe tu nombre o apellido. Por privacidad, la lista completa no se mostrará.</p>
+                <label for="guestName">Tu nombre completo</label>
+                <div class="guest-search-field">
+                  <input id="guestName" name="guestName" type="search" autocomplete="off" placeholder="Escribe tu nombre o apellido" required>
+                  <div id="guestNameResults" class="guest-search-results" role="listbox"></div>
+                  <span id="guestNameStatus" class="guest-search-status" aria-live="polite"></span>
+                </div>
+                <label for="companionName">Nombre de tu acompañante <span>(opcional)</span></label>
+                <div class="guest-search-field">
+                  <input id="companionName" name="companionName" type="search" autocomplete="off" placeholder="Escribe su nombre o apellido">
+                  <div id="companionNameResults" class="guest-search-results" role="listbox"></div>
+                  <span id="companionNameStatus" class="guest-search-status" aria-live="polite"></span>
+                </div>
+                <label class="guest-exception-option">
+                  <input id="unlistedCompanion" name="unlistedCompanion" type="checkbox">
+                  <span>Mi acompañante no está en la lista</span>
+                </label>
+                <datalist id="guestDirectory"></datalist>
+                <button type="submit" class="btn-reminder guest-submit">Registrar mi grupo</button>
+                <p id="guestFormMessage" class="guest-form-message" role="status" aria-live="polite"></p>
+              </div>
+            </details>
+          </form>
+
+          <div class="guest-list-container">
+            <div id="guestSelection" class="guest-selection">
+              <div class="guest-list-heading">
+                <div>
+                  <span class="guest-eyebrow">Paso 2 · Revisión</span>
+                  <h3>Tu grupo para confirmar</h3>
+                </div>
+                <span id="guestCount" class="guest-count">0 personas</span>
+              </div>
+              <ol id="guestList" class="guest-list">
+                <li class="guest-list-empty">Añade personas en el paso 1 y aquí podrás revisar tu grupo.</li>
+              </ol>
+              <p class="guest-privacy">Al registrar el grupo, la respuesta queda guardada. WhatsApp solo envía el aviso.</p>
+            </div>
+
+            <details class="attending-guests-disclosure">
+              <summary class="guest-list-heading">
+                <div>
+                  <span class="guest-eyebrow">Lista de referencia</span>
+                  <h3>Nombres confirmados</h3>
+                </div>
+                <span id="attendingGuestCount" class="guest-count">0 personas</span>
+              </summary>
+              <ol id="attendingGuestList" class="guest-list" aria-label="Invitados confirmados">
+                <li class="guest-list-empty">Cargando invitados confirmados...</li>
+              </ol>
+              <p class="guest-privacy">Apellido abreviado por privacidad.</p>
+            </details>
+          </div>
+          
+          <div class="guest-list-container button-group-column">
+            <div class="guest-step3-heading">
+              <span class="guest-eyebrow">Paso 3 · Confirmación</span>
+              <h3>Confirma tu asistencia</h3>
+              <p class="guest-step3-note">Cuando tu grupo esté listo, confirma por WhatsApp o guarda la fecha.</p>
+            </div>
+            <div class="guest-step3-actions">
+              <a id="whatsappConfirmBtn" href="https://wa.me/59160207069?text=Hola%20Jesús%20y%20Nélida,%20confirmo%20mi%20asistencia%20a%20su%20boda.%20¡Muchas%20felicidades!" target="_blank" class="btn-whatsapp">
+                Confirmar asistencia por WhatsApp
+              </a>
+
+              <button id="saveReminderBtn" class="btn-reminder">
+                📅 Guardar Recordatorio
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p class="footer-names">Jesús & Nélida</p>
+      <p class="footer-note">¡Te esperamos para celebrar juntos!</p>
+      <div class="footer-line"></div>
+      <p class="footer-copyright">02 de Octubre, 2026 · Trinidad, Beni</p>
+    </footer>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
